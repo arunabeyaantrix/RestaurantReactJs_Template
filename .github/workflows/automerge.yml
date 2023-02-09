@@ -1,0 +1,40 @@
+name: Node.js CI
+on:
+  push:
+    branches:
+    - master   
+
+jobs:
+
+  Run-test-case:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+       
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set Node.js 14.x
+        uses: actions/setup-node@v3
+        with: 
+          node-version: 14.x
+
+      - name: run unit test cases
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: test
+
+  # Caster-NPM-Build:
+  #   if: github.event_name == 'push'
+  #   runs-on: ubuntu-latest
+  #   strategy:
+  #     matrix:
+  #       node-version: [18.x]
+  #   steps:
+  #     - name: caster npm build
+  #       uses: actions/checkout@v3
+  #     - name: Use Node.js ${{ matrix.node-version }}
+  #       uses: actions/setup-node@v3
+  #       with:
+  #         node-version: ${{ matrix.node-version }}
+  #         cache: 'npm'
+  #     - run: vercel --prod --token $VERCEL_TOKEN
